@@ -1,0 +1,207 @@
+<html>
+    <head>
+        <title>Moving Car Animation with CSS</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body{
+                padding: 0px;
+                margin: 0px;
+            }
+            .wrap{
+                background: red;
+                -webkit-animation: changeBackground 15s infinite; 
+            }
+            .road{
+                position: fixed;
+                bottom:0px;
+                height: 160px;
+                width: 100%;
+                background-color: #333333;
+            }
+            .car{
+                position: fixed;
+                bottom:35px;
+                width:200px;
+                z-index: 1000;
+                -webkit-animation: movecar 15s infinite; 
+            }
+            .sun{
+                border: 1px solid white;
+                border-radius: 50%;
+                width:100px;
+                height: 100px;
+                position: fixed;
+                background: orangered;
+                -webkit-animation: sunAnim 15s infinite;
+            }
+
+            .moon{
+                border: 1px solid white;
+                border-radius: 50%;
+                width:30px;
+                height: 30px;
+                position: fixed;
+                background: white;
+                -webkit-animation: moonAnim 15s infinite;
+            }
+            .bg-music{
+                visibility: hidden;
+            }
+            .divider{
+                position: absolute;
+                width: 100%;
+                bottom:70px;
+                border: 5px dotted white;
+            }
+            .grassB{
+                position: fixed;
+                width:65%;
+                bottom:160px;
+                border-top-right-radius: 100%;
+                height: 100px;
+                z-index: 1000;
+                background: #3B5323;
+            }
+            .grassC{
+                position: fixed;
+                width:55%;
+                bottom:160px;
+                right:0px;
+                border-top-left-radius: 100%;
+                height: 200px;
+                z-index: 10;
+                background: #526F35;
+            }
+            .roadBorder{
+                position: fixed;
+                width:100%;
+                bottom:160px;
+                height: 10px;
+                z-index: 1000;
+                background: brown;
+            }
+            .pole{
+                position: fixed;
+                width:5px;
+                left:25%;
+                bottom:160px;
+                height: 100px;
+                z-index: 1000;
+                background: linear-gradient(141deg, gray 0%, white 51%, gray 75%);
+            }
+            .pole p{
+                width: 15px;
+                height: 20px;
+                bottom: 243px;
+                background: yellow;
+                border-radius: 50%;
+                position: fixed;
+                left: 24.7%;
+                box-shadow: 0px -2px 36px orange;
+            }
+            .pole1{
+                position: fixed;
+                width:5px;
+                left:50%;
+                bottom:160px;
+                height: 100px;
+                z-index: 1000;
+                background: linear-gradient(141deg, gray 0%, white 51%, gray 75%);
+            }
+            .pole1 p{
+                width: 15px;
+                height: 20px;
+                bottom: 243px;
+                background: yellow;
+                border-radius: 50%;
+                position: fixed;
+                left: 49.6%;
+                box-shadow: 0px -2px 36px orange;
+            }
+            .pole2{
+                position: fixed;
+                width:5px;
+                left:75%;
+                bottom:160px;
+                height: 100px;
+                z-index: 1000;
+                background: linear-gradient(141deg, gray 0%, white 51%, gray 75%);
+            }
+            .pole2 p{
+                width: 15px;
+                height: 20px;
+                bottom: 243px;
+                background: yellow;
+                border-radius: 50%;
+                position: fixed;
+                left: 74.7%;
+                box-shadow: 0px -2px 36px orange;
+            }
+            .star{
+                background: yellow;
+                position: fixed;
+                box-shadow: 1px -2px 79px orange;
+            }
+            @keyframes movecar {
+                from {left : -10%;}
+                to {left: 100%; bottom:80px}
+            }
+
+            @keyframes changeBackground {
+                from {background-color: skyblue;}
+                to {background-color: black;}
+            }
+            @keyframes sunAnim {
+                from {background-color: yellow; width:100px; height:100px; left:40px; top: 0%;}
+                to {background-color: orange; width:70px; height:70px; left:500px; top: 100%;}
+            }
+            @keyframes moonAnim {
+                from {background-color: white; left:50%; top: -20%;}
+                to {background-color: whitesmoke; box-shadow: 0px 0px 5px whitesmoke; left:60%; top: 10%;}
+            }
+        </style>
+
+    </head>
+    <body class="wrap">
+        <div class="sun">
+
+        </div>
+        <div class="moon">
+
+        </div>
+        <div class="grassB">
+
+        </div>
+        <div class="grassC">
+
+        </div>
+
+        <div class="roadBorder">
+
+        </div>
+
+        <div class="pole">
+            <p></p>
+        </div>
+        <div class="pole1">
+            <p></p>
+        </div>
+        <div class="pole2">
+            <p></p>
+        </div>
+        <div class="star">
+        </div>
+        <img src="car.png" class="car">
+        <div class="road">
+
+            <div class="divider">
+
+            </div>
+        </div>
+        <audio controls autoplay="" class="bg-music">
+            <source src="car-acc.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </body>
+</html>
