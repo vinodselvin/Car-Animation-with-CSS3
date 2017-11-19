@@ -7,11 +7,13 @@
             body{
                 padding: 0px;
                 margin: 0px;
-            }
-            .game{
-                background: red;
+                background-color: skyblue;
                 -webkit-animation: changeBackground 150s infinite; 
             }
+            /*.game{
+                background: red;
+                
+            }*/
             .road{
                 position: fixed;
                 bottom:0px;
@@ -152,6 +154,9 @@
                 position: fixed;
                 box-shadow: 1px -2px 79px orange;
             }
+            .hidden{
+            	display: none !important;
+            }
             @keyframes movecar {
                 from {left : -10%;}
                 to {left: 100%; bottom:80px}
@@ -219,9 +224,9 @@
                 Your browser does not support the audio element.
             </audio>
         </div>
-        <div class="scoreboard hidden" >
+        <div class="scoreboard hidden" style="text-align: center;margin-top: 15%;">
             <h1>Score Card</h1>
-            <table>
+            <table style="margin: auto">
                 <tr>
                     <td>Vinod</td>
                     <td>100000000</td>
@@ -231,6 +236,7 @@
                     <td>100000000</td>
                 </tr>
             </table>
+            <button style="cursor:pointer;" onclick="window.location.reload();">Retry</button>
         </div>
         <script type="text/javascript" src='jquery.js'></script>
         <script>
@@ -298,6 +304,7 @@
                 {
                     alert('wasted');
                     $('.game').html('');
+                    $('.scoreboard').removeClass("hidden");
                     $('.score').show();
                 }
             });
