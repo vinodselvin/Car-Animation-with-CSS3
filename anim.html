@@ -8,9 +8,9 @@
                 padding: 0px;
                 margin: 0px;
             }
-            .wrap{
+            .game{
                 background: red;
-                -webkit-animation: changeBackground 15s infinite; 
+                -webkit-animation: changeBackground 150s infinite; 
             }
             .road{
                 position: fixed;
@@ -22,9 +22,18 @@
             .car{
                 position: fixed;
                 bottom:35px;
+                left: auto;
+                right: auto;
+                width:200px;
+                z-index: 1001;
+                -webkit-animation: movecar 15s infinite; 
+            }
+            .bot-car{
+                position: fixed;
+                bottom:35px;
                 width:200px;
                 z-index: 1000;
-                -webkit-animation: movecar 15s infinite; 
+                -webkit-animation: movebotcar 15s infinite; 
             }
             .sun{
                 border: 1px solid white;
@@ -33,7 +42,7 @@
                 height: 100px;
                 position: fixed;
                 background: orangered;
-                -webkit-animation: sunAnim 15s infinite;
+                -webkit-animation: sunAnim 150s infinite;
             }
 
             .moon{
@@ -43,7 +52,7 @@
                 height: 30px;
                 position: fixed;
                 background: white;
-                -webkit-animation: moonAnim 15s infinite;
+                -webkit-animation: moonAnim 150s infinite;
             }
             .bg-music{
                 visibility: hidden;
@@ -148,6 +157,10 @@
                 to {left: 100%; bottom:80px}
             }
 
+            @keyframes movebotcar {
+                from {left : 100%;}
+                to {left: -15%; bottom:80px}
+            }
             @keyframes changeBackground {
                 from {background-color: skyblue;}
                 to {background-color: black;}
@@ -164,44 +177,171 @@
 
     </head>
     <body class="wrap">
-        <div class="sun">
-
-        </div>
-        <div class="moon">
-
-        </div>
-        <div class="grassB">
-
-        </div>
-        <div class="grassC">
-
-        </div>
-
-        <div class="roadBorder">
-
-        </div>
-
-        <div class="pole">
-            <p></p>
-        </div>
-        <div class="pole1">
-            <p></p>
-        </div>
-        <div class="pole2">
-            <p></p>
-        </div>
-        <div class="star">
-        </div>
-        <img src="car.png" class="car">
-        <div class="road">
-
-            <div class="divider">
+        <div class="game">
+            <div class="sun">
 
             </div>
+            <div class="moon">
+
+            </div>
+            <div class="grassB">
+
+            </div>
+            <div class="grassC">
+
+            </div>
+
+            <div class="roadBorder">
+
+            </div>
+
+            <div class="pole">
+                <p></p>
+            </div>
+            <div class="pole1">
+                <p></p>
+            </div>
+            <div class="pole2">
+                <p></p>
+            </div>
+            <div class="star">
+            </div>
+            <img src="car.png" class="car">
+            <img src="bot.png" class="bot-car">
+            <div class="road">
+
+                <div class="divider">
+
+                </div>
+            </div>
+            <audio controls autoplay="" class="bg-music">
+                <source src="car-acc.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
         </div>
-        <audio controls autoplay="" class="bg-music">
-            <source src="car-acc.mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
+        <div class="scoreboard hidden" >
+            <h1>Score Card</h1>
+            <table>
+                <tr>
+                    <td>Vinod</td>
+                    <td>100000000</td>
+                </tr>
+                <tr>
+                    <td>Vinod</td>
+                    <td>100000000</td>
+                </tr>
+            </table>
+        </div>
+        <script type="text/javascript" src='jquery.js'></script>
+        <script>
+            $(document).keydown(function (e) {
+                switch (e.which) {
+                    case 37: // left
+                        moveCarLeft();
+                        break;
+
+                    case 38: // up
+                        moveCarUp();
+                        break;
+
+                    case 39: // right
+                        moveCarRight();
+                        break;
+
+                    case 40: // down
+                        moveCarDown();
+                        break;
+
+                    default:
+                        return; // exit this handler for other keys
+                }
+                e.preventDefault();
+            });
+
+            jQuery.fn.onPositionChanged = function (trigger, millis) {
+                if (millis == null)
+                    millis = 100;
+                var o = $(this[0]); // our jquery object
+                if (o.length < 1)
+                    return o;
+
+                var lastPos = null;
+                var lastOff = null;
+                setInterval(function () {
+                    if (o == null || o.length < 1)
+                        return o; // abort if element is non existend eny more
+                    if (lastPos == null)
+                        lastPos = o.position();
+                    if (lastOff == null)
+                        lastOff = o.offset();
+                    var newPos = o.position();
+                    var newOff = o.offset();
+                    if (lastPos.top != newPos.top || lastPos.left != newPos.left) {
+                        $(this).trigger('onPositionChanged', {lastPos: lastPos, newPos: newPos});
+                        if (typeof (trigger) == "function")
+                            trigger(lastPos, newPos);
+                        lastPos = o.position();
+                    }
+                    if (lastOff.top != newOff.top || lastOff.left != newOff.left) {
+                        $(this).trigger('onOffsetChanged', {lastOff: lastOff, newOff: newOff});
+                        if (typeof (trigger) == "function")
+                            trigger(lastOff, newOff);
+                        lastOff = o.offset();
+                    }
+                }, millis);
+
+                return o;
+            };
+
+            $(".car").onPositionChanged(function () {
+                if (second())
+                {
+                    alert('wasted');
+                    $('.game').html('');
+                    $('.score').show();
+                }
+            });
+
+            function second() {
+//                console.log('tr');
+                $div1 = $('.bot-car');
+                $div2 = $('.car');
+                var x1 = $div1.offset().left + 20;
+                var y1 = $div1.offset().top;
+                var h1 = $div1.outerHeight(true);
+                var w1 = $div1.outerWidth(true);
+                var b1 = y1 + h1;
+                var r1 = x1 + w1;
+                var x2 = $div2.offset().left;
+                var y2 = $div2.offset().top;
+                var h2 = $div2.outerHeight(true);
+                var w2 = $div2.outerWidth(true);
+                var b2 = y2 + h2;
+                var r2 = x2 + w2;
+
+                if (b1 < y2 || y1 > b2 || r1 < x2 || x1 > r2) {
+                    return false;
+                } else {
+
+                }
+                return true;
+            }
+            function moveCarUp() {
+                console.log($('.car').css('top'));
+                $('.car').css({'top': (parseFloat($('.car').css('top')) - 10) + 'px'});
+            }
+            
+            function moveCarDown() {
+                console.log($('.car').css('top'));
+                $('.car').css({'top': (parseFloat($('.car').css('top')) + 4) + 'px'});
+            }
+            
+            function moveCarLeft() {
+                console.log($('.car').css('left'), $('.car').css('right'));
+                $(".car").animate({left: "-=50"}, 0);  
+//                $('.car').css({'left': (parseFloat($('.car').css('left')) - 300) + 'px'});
+//                $('.car').css({'right': (parseFloat($('.car').css('right')) + 300) + 'px'});
+            }
+        </script>
     </body>
 </html>
